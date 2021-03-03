@@ -1,0 +1,61 @@
+#!/bin/bash
+
+set -e
+
+JOB_NAME=containerd
+RUN_DIR=/var/vcap/sys/run/$JOB_NAME
+LOG_DIR=/var/vcap/sys/log/$JOB_NAME
+DATA_DIR=/var/vcap/data/$JOB_NAME
+STATE_DIR=/var/vcap/store/$JOB_NAME
+PID_FILEPATH=$RUN_DIR/$JOB_NAME.pid
+CONFIG_FILEPATH=/var/vcap/jobs/$JOB_NAME/config/config.toml
+
+export PATH=$PATH:/var/vcap/packages/containerd/bin
+
+create_dirs() {
+  mkdir -p $RUN_DIR $LOG_DIR $DATA_DIR $STATE_DIR
+}
+
+write_pidfile() {
+  echo $$ > $PID_FILEPATH
+}
+
+start_containerd() {
+  log "starting containerd"
+  exec 1>> $LOG_DIR/containerd.stdout.log
+  exec 2>> $LOG_DIR/containerd.stderr.log
+  exec containerd -c $CONFIG_FILEPATH
+}
+
+stop_containerd() {
+  log "stopping containerd"
+  kill "$(cat $PID_FILEPATH)"
+  rm -f $PID_FILEPATH
+}
+
+log() {
+  local msg
+  local time
+
+  msg=$1
+  time=$(date +"%e/%m/%Y - %T")
+
+  echo "$time $msg" >> $LOG_DIR/containerd_ctl.log
+}
+
+case $1 in
+  start)
+    create_dirs
+    write_pidfile
+    start_containerd
+  ;;
+
+  stop)
+    stop_containerd
+  ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+  ;;
+esac

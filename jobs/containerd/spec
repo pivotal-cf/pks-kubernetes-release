@@ -1,0 +1,9 @@
+---
+name: containerd
+
+packages:
+- containerd
+
+templates:
+  bin/containerd_ctl.erb: bin/containerd_ctl
+  config/config.toml.erb: config/config.toml

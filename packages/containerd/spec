@@ -1,0 +1,5 @@
+---
+name: containerd
+
+files:
+- containerd/containerd-1.0.0.linux-amd64.tar.gz

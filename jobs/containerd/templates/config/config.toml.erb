@@ -1,0 +1,21 @@
+root = "/var/vcap/store/containerd"
+state = "/var/vcap/data/containerd/state"
+no_subreaper = false
+oom_score = 0
+
+[grpc]
+  address = "/var/vcap/sys/run/containerd/containerd.sock"
+  uid = 0
+  gid = 0
+
+[debug]
+  address = "/var/vcap/sys/run/containerd/debug.sock"
+  uid = 0
+  gid = 0
+  level = "info"
+
+[metrics]
+  address = ""
+
+[cgroup]
+  path = ""

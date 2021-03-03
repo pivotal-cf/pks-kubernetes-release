@@ -1,0 +1,4 @@
+check process containerd
+  with pidfile  "/var/vcap/sys/run/containerd/containerd.pid"
+  start program "/var/vcap/jobs/containerd/bin/containerd_ctl start"
+  stop program  "/var/vcap/jobs/containerd/bin/containerd_ctl stop"
