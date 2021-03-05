@@ -1,0 +1,11 @@
+#!/bin/bash
+
+export PATH=$PATH:/var/vcap/packages/containerd/bin
+#export PATH=$PATH:/var/vcap/packages/ctop/bin
+
+export CONTAINERD_SOCK=/var/vcap/sys/run/containerd/containerd.sock
+export DOCKER_HOST=unix://$DOCKER_SOCK  #LYZ 我们依然需要这个环境变量么？
+alias ctr="/var/vcap/packages/containerd/bin/ctr --address ${CONTAINERD_SOCK}"
+alias crictl="/var/vcap/packages/containerd/bin/crictl --runtime-endpoint unix://$CONTAINERD_SOCK"
+
+# LYZ 我们也可能需要这玩意，那么怎么发挥作用的呢？

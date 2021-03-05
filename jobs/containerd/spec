@@ -7,3 +7,34 @@ packages:
 templates:
   bin/containerd_ctl.erb: bin/containerd_ctl
   config/config.toml.erb: config/config.toml
+
+
+
+provides:
+
+
+properties:
+
+  config_toml.custom:
+    description: "add custom inside config.toml file"
+    default: ""
+
+    
+  proxy.https:
+    description: "URL of https proxy"
+    example: "http://myproxy.domain.com:8128"
+    default: ""
+
+  proxy.http:
+    description: "URL of http proxy"
+    example: "http://myproxy.domain.com:8128"
+    default: ""
+
+  proxy.noproxy:
+    description: "list of no proxy"
+    example: "127.0.0.1, localhost, *.internal.paas"
+    default: ""
+
+  store_dir:
+    description: "Path to use as the root of the Docker runtime"
+    default: "/var/vcap/store"

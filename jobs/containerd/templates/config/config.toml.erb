@@ -19,3 +19,42 @@ oom_score = 0
 
 [cgroup]
   path = ""
+
+# LYZ 这是添加自定义参数的地方？我们应该细化哪些参数可以传递
+<%= p('config_toml.custom', '') %>  
+
+
+# tkg 貌似基本都是使用的默认的参数，我们也这样做，只是需要一些自定义的参数
+
+
+# Use config version 2 to enable new configuration fields.
+# Config file is parsed as version 1 by default.
+version = 2
+imports = ["/var/vcap/jobs/containerd/config/config.toml"]
+
+[timeouts]
+"io.containerd.timeout.shim.cleanup" = "5s"
+"io.containerd.timeout.shim.load" = "5s"
+"io.containerd.timeout.shim.shutdown" = "3s"
+"io.containerd.timeout.task.state" = "2s"
+
+[plugins]
+  [plugins."io.containerd.grpc.v1.cri"]
+    sandbox_image = "registry.tkg.vmware.run/pause:3.2"
+    [plugins."io.containerd.grpc.v1.cri".cni]    #这个参数是干啥的？需要和Antrea配合么？
+      bin_dir = "/var/vcap/packages/cni/bin"
+      conf_dir = "/etc/cni/net.d"
+      max_conf_num = 1
+      conf_template = ""
+    [plugins."io.containerd.grpc.v1.cri".registry]  #LYZ 这个参数是干啥的？
+      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
+          endpoint = ["https://registry-1.docker.io"]
+    [plugins."io.containerd.grpc.v1.cri".image_decryption]
+      key_model = ""
+    [plugins."io.containerd.grpc.v1.cri".x509_key_pair_streaming]
+      tls_cert_file = ""
+      tls_key_file = ""
+  [plugins."io.containerd.internal.v1.opt"]   #LYZ 这个参数是干啥的？
+    path = "/opt/containerd"
+    

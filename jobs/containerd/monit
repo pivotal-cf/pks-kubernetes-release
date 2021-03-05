@@ -1,4 +1,5 @@
-check process containerd
-  with pidfile  "/var/vcap/sys/run/containerd/containerd.pid"
-  start program "/var/vcap/jobs/containerd/bin/containerd_ctl start"
-  stop program  "/var/vcap/jobs/containerd/bin/containerd_ctl stop"
+check process containerd with pidfile "/var/vcap/sys/run/containerd/containerd.pid"
+  group vcap 
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger ctl '/var/vcap/jobs/containerd/bin/containerd_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger ctl '/var/vcap/jobs/containerd/bin/containerd_ctl stop'" with timeout 180 seconds
+  if failed unixsocket /var/vcap/sys/run/containerd/containerd.sock with timeout 5 seconds for 5 cycles then restart

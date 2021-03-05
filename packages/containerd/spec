@@ -2,4 +2,4 @@
 name: containerd
 
 files:
-- containerd/containerd-1.0.0.linux-amd64.tar.gz
+- containerd/cri-containerd-cni-1.4.3-linux-amd64.tar.gz
