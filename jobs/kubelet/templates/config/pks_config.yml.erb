@@ -1,0 +1,12 @@
+<% require 'yaml' %>
+
+<%=
+
+pks_api_shared = link("pks_api_shared")
+
+config = {
+    "base_path" => "https://#{pks_api_shared.p("pks.fqdn")}:9021/internal",
+    "pks_cert_path" => "/var/vcap/jobs/kubelet/certificates/pks.crt"
+}
+
+config.to_yaml %>

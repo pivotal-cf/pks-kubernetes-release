@@ -16,6 +16,8 @@ templates:
   config/kubeletconfig.yml.erb: config/kubeletconfig.yml
   config/openstack-ca.crt.erb: config/openstack-ca.crt
   config/service_key.json.erb: config/service_key.json
+  config/pks_config.yml.erb: config/pks_config.yml
+  certificates/pks.crt.erb: certificates/pks.crt
 packages:
 - pid_utils
 - kubernetes
@@ -87,6 +89,9 @@ consumes:
 # TODO: it doesn't make sense for kubelet to depend on kube-apiserver, should we extract a common config package / job?
 - name: kube-apiserver
   type: kube-apiserver
+- name: pks_api_shared
+  type: http
+
 provides:
 - name: kubernetes-workers
   type: kubernetes-workers
